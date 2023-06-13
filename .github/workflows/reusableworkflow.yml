@@ -16,7 +16,7 @@ jobs:
      run: echo Hello, world!
      
  docker:
-  uses: Sivainfomagnus/Deployment-reusable-workflow/.github/workflows/Deployent.yml@main
+  uses: Sivainfomagnus/Deployment-reusable-workflow/.github/workflows/Deployment.yml@main
   with:
    image_name: my-awesome-app
    tag: $GITHUB-RUN-NUMBER
