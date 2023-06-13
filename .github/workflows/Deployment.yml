@@ -1,6 +1,17 @@
 name: Create and Publish Docker Image
 on:
  workflow_call:
+  inputs:
+   image_name:
+    required: true
+    type: string
+   tag:
+    type: string
+  secrets:
+   DOCKERHUB_USERNAME:
+    required: true
+   DOCKERHUB_ACCESS_TOKEN:
+    required: true
 jobs:
  build:
   runs-on: self-hosted
@@ -9,14 +20,32 @@ jobs:
    - uses: actions/checkout@v2
    
    - name: Setup BuildX
-     uses: docker/setup-buildx-action@v1
+     uses: docker/setup-buildx-action@v2
      
-   - name: Build the docker image
+   - name: Login to the Registry
+     uses: docker/login-action@v1
+     with:
+      registry: https://hub.docker.com
+      username: ${{secrets.DOCKERHUB_USERNAME}}
+      password: ${{secrets.DOCKERHUB_ACCESS_TOKEN}}
+      
+   - name: Set the tag
      run: |
-        cp -rf /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Dockerfile /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Deployment-reusable-workflow/
-        docker build -t myapp:1.0 .
-   - name: Run docker image 
-     run: docker run --name mywebapp -d -P myapp:1.0
+      if [ -z "${{inputs.tag}}"]
+      then
+       echo "final_tag-latest" >> $GITHUB_ENV
+      else
+       echo "final_tag-${{inputs.tag}}" >> $GITHUB_ENV
+      fi
+   - name: Build and Push the image
+     uses: docker/build-push-acton@v2.7.0
+     with:
+      registry: https://hub.docker.com
+      context: .
+      push: true
+      tags: ${{secrets.DOCKERHUB_USERNAME}}/${{inputs.image_name}}:${{env.final_tag}}
+      dockerfile: Sivainfomagnus/Deployment-reusable-workflow/.github/workflows/Dockerfile
+       
  do_something_else:
   runs-on: self-hosted
   steps:
