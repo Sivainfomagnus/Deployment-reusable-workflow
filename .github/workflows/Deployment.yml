@@ -16,7 +16,7 @@ jobs:
         cp -rf /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Dockerfile /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Deployment-reusable-workflow/
         docker build -t myapp:1.0 .
    - name: Run docker image 
-     run: docker run --name mywebapp -itd myapp:1.0
+     run: docker run --name mywebapp -d -P myapp:1.0
  do_something_else:
   runs-on: self-hosted
   steps:
