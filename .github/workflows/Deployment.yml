@@ -1,0 +1,19 @@
+name: Create and Publish Docker Image
+on:
+ workflow_call:
+jobs:
+ build:
+  runs-on: self-hosted
+  
+  steps:
+   - uses: actions/checkout@v2
+   
+   - name: Setup BuildX
+     uses: docker/setup-buildx-action@v1
+     
+   - name: Build the docker image
+     run: docker build -t myapp:1.0 .
+ do_something_else:
+  runs-on: ubuntu-latest
+  steps:
+   - run: echo "Hello"
