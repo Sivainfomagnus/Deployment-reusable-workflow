@@ -28,24 +28,12 @@ jobs:
       registry: https://hub.docker.com
       username: ${{secrets.DOCKERHUB_USERNAME}}
       password: ${{secrets.DOCKERHUB_ACCESS_TOKEN}}
-      
-   - name: Set the tag
+   - name: Build the docker image
      run: |
-      if [ -z "${{inputs.tag}}"]
-      then
-       echo "final_tag-latest" >> $GITHUB_ENV
-      else
-       echo "final_tag-${{inputs.tag}}" >> $GITHUB_ENV
-      fi
-   - name: Build and Push the image
-     uses: docker/build-push-acton@v4
-     with:
-      registry: https://hub.docker.com
-      context: .
-      push: true
-      tags: ${{secrets.DOCKERHUB_USERNAME}}/${{inputs.image_name}}:${{env.final_tag}}
-      dockerfile: Sivainfomagnus/Deployment-reusable-workflow/.github/workflows/Dockerfile
-       
+        cp -rf /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Dockerfile /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Deployment-reusable-workflow/
+        docker build -t myapp:1.1 .
+   - name: Create and Run container
+     run: docker run --name mywebapp2 -d -P myapp:1.1
  do_something_else:
   runs-on: self-hosted
   steps:
