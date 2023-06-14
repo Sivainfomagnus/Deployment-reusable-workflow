@@ -15,12 +15,7 @@ jobs:
    - name: Build the docker image
      run: |
         cp -rf /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Dockerfile /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Deployment-reusable-workflow/
-        docker build -t myapp:1.1 .
-   - name: Set up SSH
-     uses: webfactory/ssh-agent@v0.5.1
-     with:
-      ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-   
+        docker build -t myapp:1.1 .   
  DEV:
   runs-on: self-hosted
   environment: DEV
@@ -32,6 +27,7 @@ jobs:
         docker build -t myapp:1.1 .
    - name: Create and Run docker image on EC2 instance
      run: |
+      ssh ubuntu@18.207.225.38
       ssh ubuntu@18.207.225.38 docker run --name webdev1 -d -P myapp:1.1
  QA:
   runs-on: self-hosted
