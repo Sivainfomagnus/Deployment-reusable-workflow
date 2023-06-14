@@ -27,8 +27,7 @@ jobs:
          docker build -t myapp:1.1 .
    - name: Create and Run docker image on EC2 instance
      run: |
-       ssh ubuntu@18.207.225.38
-       docker run --name webdev1 -d -P myapp:1.1
+       ssh ubuntu@18.207.225.38 docker run --name webdev1 -d -P /home/ubuntu/myapp:1.1
  QA:
   runs-on: self-hosted
   environment: QA
