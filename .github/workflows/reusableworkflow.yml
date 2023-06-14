@@ -13,4 +13,4 @@ jobs:
    - uses: actions/checkout@v2
    
  docker:
-  uses: Sivainfomagnus/Deployment-reusable-workflow/.github/workflows/Deployment.yml@sha:5308f23958d7e7e48ca5cb8a9413f381a9839ee3
+  uses: Sivainfomagnus/Deployment-reusable-workflow/.github/workflows/Deployment.yml@main
