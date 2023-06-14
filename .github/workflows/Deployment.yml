@@ -23,11 +23,10 @@ jobs:
   steps:
    - name: Build the docker image
      run: |
-        cp -rf /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Dockerfile /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Deployment-reusable-workflow/
-        docker build -t myapp:1.1 .
+         scp /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Deployment-reusable-workflow/Dockerfile ubuntu@172.31.90.55:/home/ubuntu/
+         docker build -t myapp:1.1 .
    - name: Create and Run docker image on EC2 instance
      run: |
-      ssh ubuntu@18.207.225.38
       ssh ubuntu@18.207.225.38 docker run --name webdev1 -d -P myapp:1.1
  QA:
   runs-on: self-hosted
