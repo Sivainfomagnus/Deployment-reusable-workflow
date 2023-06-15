@@ -21,7 +21,7 @@ jobs:
   environment: DEV
   needs: build
   steps:
-   - name: Build the docker images
+   - name: Build the docker image
      run: |
          scp -r /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Deployment-reusable-workflow/Dockerfile ubuntu@DEV:/home/ubuntu/
          ssh ubuntu@DEV docker build -t myapp:1.1 .
