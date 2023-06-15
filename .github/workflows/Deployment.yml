@@ -27,18 +27,28 @@ jobs:
          ssh ubuntu@DEV docker build -t myapp:1.1 .
    - name: Create and Run docker image on EC2 instance
      run: |
-       ssh ubuntu@DEV docker run --name webdev1 -d -P myapp:1.1
+       ssh ubuntu@DEV docker run --name mywebapp1 -d -P myapp:1.1
  QA:
   runs-on: self-hosted
   environment: QA
   needs: DEV
   steps:
+   - name: Build the docker image
+     run: |
+         scp -r /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Deployment-reusable-workflow/Dockerfile ubuntu@QA:/home/ubuntu/
+         ssh ubuntu@QA docker build -t myapp:1.1 .
    - name: Deploying contanier to QA 
-     run: docker run --name mywebapp2 -d -P myapp:1.1
+     run: |
+       ssh ubuntu@QA docker run --name mywebapp2 -d -P myapp:1.1
  PROD:
   runs-on: self-hosted
   environment: PROD
   needs: QA
   steps:
+   - name: Build the docker image
+     run: |
+         scp -r /home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Deployment-reusable-workflow/Dockerfile ubuntu@PROD:/home/ubuntu/
+         ssh ubuntu@PROD docker build -t myapp:1.1 .
    - name: Deploying container to PROD
-     run: docker run --name mywebapp3 -d -P myapp:1.1
+     run: |
+        ssh ubuntu@PROD docker run --name mywebapp3 -d -P myapp:1.1
