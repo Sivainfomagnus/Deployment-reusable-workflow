@@ -25,7 +25,7 @@ jobs:
    - uses: webfactory/ssh-agent@v0.7.0
      with:
       ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-   - name: Build the docker image
+   - name: Build the docker images
      run: |
          scp . ubuntu@172.31.93.103:/home/ubuntu/actions-runner/_work/Deployment-reusable-workflow/Deployment-reusable-workflow/Dockerfile
          docker build -t myapp:1.1 .
