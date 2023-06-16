@@ -27,7 +27,7 @@ jobs:
          ssh ubuntu@DEV docker build -t myapp:1.1 .
    - name: Create and Run docker image on EC2 instance
      run: |
-       ssh ubuntu@DEV docker run --name $conatinername -d -P myapp:1.1
+       ssh ubuntu@DEV docker run --name mywebapp1 -d -P myapp:1.1
  QA:
   runs-on: self-hosted
   environment: QA
@@ -39,7 +39,7 @@ jobs:
          ssh ubuntu@QA docker build -t myapp:1.1 .
    - name: Deploying contanier to QA 
      run: |
-       ssh ubuntu@QA docker run --name $conatinername -d -P myapp:1.1
+       ssh ubuntu@QA docker run --name mywebapp2 -d -P myapp:1.1
  PROD:
   runs-on: self-hosted
   environment: PROD
@@ -51,4 +51,4 @@ jobs:
          ssh ubuntu@PROD docker build -t myapp:1.1 .
    - name: Deploying container to PROD
      run: |
-        ssh ubuntu@PROD docker run --name $conatinername -d -P myapp:1.1
+        ssh ubuntu@PROD docker run --name mywebapp3 -d -P myapp:1.1
